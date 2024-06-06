@@ -70,7 +70,7 @@
 
 项目中为了演示添加了 `Vue-Router`，并且需要去除 `SystemJSPublicPathWebpackPlugin`
 
-### 总结：
+## 总结：
 
 - 无论子应用是 `React` 还是 `Vue`，默认都是子应用模式启动服务，同时还提供一个独立运行的模式：`{start|serve}:standalone`
 - 所有子应用都需要修改入口文件，暴露 3 个方法：`bootstrap`, `mount`, `unmount` 用于主应用启动、加载和卸载
