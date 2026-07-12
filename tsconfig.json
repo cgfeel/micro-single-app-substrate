@@ -2,6 +2,8 @@
   "extends": "ts-config-single-spa",
   "files": ["src/levi-root-config.ts"],
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "rootDir": "src",
     "declarationDir": "dist"
   },
   "include": ["src/**/*"],

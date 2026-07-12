@@ -1,27 +1,26 @@
-import { registerApplication, start, LifeCycles } from "single-spa";
+/// <reference types="systemjs" />
+
+import {registerApplication, start, LifeCycles} from "single-spa";
 
 // 注册应用
 registerApplication({
   name: "@single-spa/welcome",
   // 远程加载模块
-  app: () =>
-    System.import<LifeCycles>(
-      "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js"
-    ),
+  app: () => System.import<LifeCycles>("https://unpkg.com/single-spa-welcome@2.0.0/dist/single-spa-welcome.js"),
   // activeWhen: ["/"],
-  activeWhen: location => location.pathname === "/"
+  activeWhen: (location) => location.pathname === "/",
 });
 
 registerApplication({
   name: "@levi/react",
   app: () => System.import<LifeCycles>("@levi/react"),
-  activeWhen: location => location.pathname.startsWith("/react"),
+  activeWhen: (location) => location.pathname.startsWith("/react"),
 });
 
 registerApplication({
   name: "@levi/vue-project",
   app: () => System.import<LifeCycles>("@levi/vue-project"),
-  activeWhen: location => location.pathname.startsWith("/vue"),
+  activeWhen: (location) => location.pathname.startsWith("/vue"),
 });
 
 // registerApplication({
