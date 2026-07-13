@@ -101,7 +101,7 @@
       const params = urlParams.toString()
       const newSearch = params ? '?' + params : ''
       
-      window.history.replaceState({}, null, rootPath + redirectPath.slice(1) + newSearch)
+      window.history.replaceState({}, null, '<%= deployBase %>' + redirectPath.slice(1) + newSearch)
     }
   </script>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
