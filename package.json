@@ -7,10 +7,10 @@
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "prepare": "husky install",
-    "build": "concurrently npm:build:*",
+    "build": "pnpm run generate:script && concurrently npm:build:*",
     "build:webpack": "webpack --mode=production",
     "build:types": "tsc",
-    "build:script": "tsc -p tsconfig.script.json",
+    "generate:script": "tsc -p tsconfig.script.json",
     "generate-import-map": "node dist/script/generate-import-map.js"
   },
   "devDependencies": {
