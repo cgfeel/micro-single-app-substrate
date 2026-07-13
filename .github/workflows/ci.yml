@@ -77,7 +77,7 @@ jobs:
         working-directory: zf-micro-app
         run: pnpm --filter @levi/vue-project build
         env:
-          DEPLOY_BASE: /micro-single-app-substrate
+          VUE_APP_DEPLOY_BASE: /micro-single-app-substrate
 
       - name: Build substrate project
         working-directory: zf-micro-app
