@@ -1,6 +1,7 @@
-const { HtmlWebpackPlugin, defineEnvPlugin } = require('@event-chat/micro-dev-config/plugins')
+const { HtmlWebpackPlugin, copyPlugin, defineEnvPlugin } = require('@event-chat/micro-dev-config/plugins')
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
+const path = require('path');
 
 const ROOT_CONFIG_URL = process.env.DEPLOY_BASE ?? "/micro-single-app-substrate";
 
@@ -24,6 +25,15 @@ module.exports = (webpackConfigEnv, argv) => {
         APP_NAME: '@levi/root-config',
         BASE_URL: deployBase
       }),
+      copyPlugin([
+        {
+          from: path.resolve(__dirname, 'public'),
+          noErrorOnMissing: true,
+          globOptions: {
+            ignore: ['**/index.html']
+          },
+        }
+      ]),
       new HtmlWebpackPlugin({
         inject: false,
         template: "src/index.ejs",
