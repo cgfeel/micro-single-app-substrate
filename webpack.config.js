@@ -1,4 +1,4 @@
-const { HtmlWebpackPlugin, defineEnvPlugin } = require('@event-chat/micro-dev-config/plugins')
+const { HtmlWebpackPlugin, copyPlugin, defineEnvPlugin } = require('@event-chat/micro-dev-config/plugins')
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
 const path = require('path');
