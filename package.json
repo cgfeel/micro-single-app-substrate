@@ -1,16 +1,16 @@
 {
   "name": "@levi/root-config",
   "scripts": {
-    "start": "webpack serve --port 9000 --env isLocal",
+    "start": "micro-cli serve --port 9000 --env isLocal",
     "lint": "eslint src --ext js,ts,tsx",
     "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "prepare": "husky install",
-    "build": "pnpm run generate:script && concurrently npm:build:*",
-    "build:webpack": "webpack --mode=production",
+    "build": "concurrently npm:build:*",
+    "build:webpack": "micro-cli --mode=production",
     "build:types": "tsc",
-    "generate:script": "tsc -p tsconfig.script.json",
+    "build:script": "tsc -p tsconfig.script.json",
     "generate-import-map": "node dist/script/generate-import-map.js"
   },
   "devDependencies": {
@@ -20,7 +20,7 @@
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@babel/runtime": "^7.23.3",
-    "@event-chat/micro-dev-config": "^0.0.20",
+    "@event-chat/micro-dev-config": "^0.0.21",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.1.1",
     "@types/systemjs": "^6.15.4",

@@ -5,5 +5,6 @@
     "outDir": "dist",
     "emitDeclarationOnly": false
   },
+  "files": [],
   "include": ["src/script/**/*"]
 }

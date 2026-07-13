@@ -1,6 +1,6 @@
+const { HtmlWebpackPlugin } = require('@event-chat/micro-dev-config/plugins')
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "levi";
