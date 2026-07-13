@@ -22,7 +22,7 @@ registerApplication({
 registerApplication({
   name: "@levi/vue-project",
   app: () => System.import<LifeCycles>("@levi/vue-project"),
-  activeWhen: (location) => location.pathname.startsWith(`${rootPath}/vue`),
+  activeWhen: (location) => location.pathname.startsWith(`${rootPath}vue`),
 });
 
 // registerApplication({

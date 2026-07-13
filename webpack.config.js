@@ -15,19 +15,21 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   const isProduction = argv.p || argv.mode === "production";
+  const deployBase = isProduction ? `${ROOT_CONFIG_URL}/` : "/";
 
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object
     plugins: [
       defineEnvPlugin({ production: isProduction }, {
         APP_NAME: '@levi/root-config',
-        BASE_URL: isProduction ? `${ROOT_CONFIG_URL}/` : "/"
+        BASE_URL: deployBase
       }),
       new HtmlWebpackPlugin({
         inject: false,
         template: "src/index.ejs",
         templateParameters: {
           isLocal: webpackConfigEnv && webpackConfigEnv.isLocal,
+          deployBase,
           orgName,
         },
       }),
