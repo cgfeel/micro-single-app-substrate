@@ -83,13 +83,14 @@
   </noscript>
   <main>
     <a href="javascript:void(0)" onclick="go('/')">去 welcom</a> | 
-    <a href="javascript:void(0)" onclick="go('/react')">去 react</a> | 
-    <a href="javascript:void(0)" onclick="go('/vue')">去 vue</a>
+    <a href="javascript:void(0)" onclick="go('/react/')">去 react</a> | 
+    <a href="javascript:void(0)" onclick="go('/vue/')">去 vue</a>
   </main>
   <script>
     System.import('@levi/root-config');
     function go(url) {
-      history.pushState({}, null, url);
+      const pathname = location.pathname.split('/')[1]
+      history.pushState({}, null, `${pathname ? '/' + pathname : ''}${url}`);
     }
   </script>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
