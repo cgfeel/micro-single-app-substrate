@@ -70,14 +70,20 @@ jobs:
       - name: Build react project
         working-directory: zf-micro-app
         run: pnpm --filter @levi/react build
+        env:
+          DEPLOY_BASE: /micro-single-app-substrate
 
       - name: Build vue project
         working-directory: zf-micro-app
         run: pnpm --filter @levi/vue-project build
+        env:
+          DEPLOY_BASE: /micro-single-app-substrate
 
       - name: Build substrate project
         working-directory: zf-micro-app
         run: pnpm --filter @levi/root-config build
+        env:
+          DEPLOY_BASE: /micro-single-app-substrate
 
       - name: Collect micro-app dist
         working-directory: zf-micro-app/apps/single-spa

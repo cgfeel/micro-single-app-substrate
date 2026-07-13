@@ -1,6 +1,8 @@
-const { HtmlWebpackPlugin } = require('@event-chat/micro-dev-config/plugins')
+const { HtmlWebpackPlugin, defineEnvPlugin } = require('@event-chat/micro-dev-config/plugins')
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
+
+const ROOT_CONFIG_URL = process.env.DEPLOY_BASE ?? "/micro-single-app-substrate";
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "levi";
@@ -12,9 +14,15 @@ module.exports = (webpackConfigEnv, argv) => {
     disableHtmlGeneration: true,
   });
 
+  const isProduction = argv.p || argv.mode === "production";
+
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object
     plugins: [
+      defineEnvPlugin({ production: isProduction }, {
+        APP_NAME: '@levi/root-config',
+        BASE_URL: isProduction ? `${ROOT_CONFIG_URL}/` : "/"
+      }),
       new HtmlWebpackPlugin({
         inject: false,
         template: "src/index.ejs",
