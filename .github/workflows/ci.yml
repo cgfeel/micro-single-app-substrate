@@ -104,13 +104,13 @@ jobs:
 
       # 6. 上传Storybook静态文件为Pages工件
       - name: Upload Pages artifact
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
         uses: actions/upload-pages-artifact@v3
         with:
           path: zf-micro-app/apps/single-spa/substrate/dist
 
   deploy:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
     needs: validate-and-build
     runs-on: ubuntu-latest
     permissions:
