@@ -1,5 +1,23 @@
 # micro-single-app-substrate
 
+## 更新
+
+`single-spa` 通过路由匹配对应的应用入口链接，当前基座下的子应用分别部署在各自仓库；按理说填写部署后的链接应该就可以了，但这会产生静态资源缓存的问题，于是
+
+在 `github action` 上：
+
+- 基座下的子应用各自编译时候，根据输出带有哈希的入口，并生成 `import-map.json` 的映射文件
+- 映射文件包含了 `file` 和 `name`两个字段，作为应用名和路径
+- 编译基座前分别拉取：`monorepo` 主仓库、子应用仓库、当前仓库，按照开发环境路径一致放置
+- 分别编译子应用和基座，将子应用下的 `dist` 目录拷贝到基座目录 `/dist/micro/` 目录下
+- 扫描 `/dist/micro/` 下所有的隐射文件生成 `systemjs-importmap`
+
+在 `webpack` 构建上：
+
+- 待补充
+
+---
+
 一个 `single-spa` 基座演示仓库，完整内容查看微前端主仓库：https://github.com/cgfeel/zf-micro-app
 
 - 所有项目目录：`./single-spa` [[查看](https://github.com/cgfeel/zf-micro-app/tree/main/single-spa)]
