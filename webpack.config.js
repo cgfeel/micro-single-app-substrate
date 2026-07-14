@@ -1,4 +1,4 @@
-const { HtmlWebpackPlugin, copyPlugin, defineEnvPlugin } = require('@event-chat/micro-dev-config/plugins')
+const { HtmlWebpackPlugin, ImportMapPlugin, copyPlugin, defineEnvPlugin } = require('@event-chat/micro-dev-config/plugins')
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
 const path = require('path');
@@ -19,8 +19,17 @@ module.exports = (webpackConfigEnv, argv) => {
   const deployBase = isProduction ? `${ROOT_CONFIG_URL}/` : "/";
 
   return merge(defaultConfig, {
+    output: {
+      filename: isProduction ? `${defaultConfig.output.filename.split('.')[0]}.[contenthash:8].js` : defaultConfig.output.filename
+    },
     // modify the webpack config however you'd like to by adding to this object
     plugins: [
+      new ImportMapPlugin({
+        baseUrl: ROOT_CONFIG_URL,
+        imports: {
+          main: '@levi/root-config'
+        }
+      }),
       defineEnvPlugin({ production: isProduction }, {
         APP_NAME: '@levi/root-config',
         BASE_URL: deployBase
@@ -37,11 +46,12 @@ module.exports = (webpackConfigEnv, argv) => {
       new HtmlWebpackPlugin({
         inject: false,
         template: "src/index.ejs",
-        templateParameters: {
+        templateParameters: (compilation) => ({
+          buildHash: compilation.hash,
           isLocal: webpackConfigEnv && webpackConfigEnv.isLocal,
           deployBase,
           orgName,
-        },
+        }),
       }),
     ],
   });

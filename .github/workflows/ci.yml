@@ -79,12 +79,7 @@ jobs:
         env:
           VUE_APP_DEPLOY_BASE: /micro-single-app-substrate
 
-      - name: Build substrate project
-        working-directory: zf-micro-app
-        run: pnpm --filter @levi/root-config build
-        env:
-          DEPLOY_BASE: /micro-single-app-substrate
-
+      # 必须在基座构建之前拷贝目录
       - name: Collect micro-app dist
         working-directory: zf-micro-app/apps/single-spa
         run: |
@@ -94,9 +89,9 @@ jobs:
           cp -R react-project/dist substrate/dist/micro/react
           cp -R vue-project/dist substrate/dist/micro/vue
 
-      - name: Generate Import Map
-        working-directory: zf-micro-app/apps/single-spa/substrate
-        run: pnpm run generate-import-map
+      - name: Build substrate project
+        working-directory: zf-micro-app
+        run: pnpm --filter @levi/root-config build
         env:
           DEPLOY_BASE: /micro-single-app-substrate
 
