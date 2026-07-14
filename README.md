@@ -2,19 +2,32 @@
 
 ## 更新
 
-`single-spa` 通过路由匹配对应的应用入口链接，当前基座下的子应用分别部署在各自仓库；按理说填写部署后的链接应该就可以了，但这会产生静态资源缓存的问题，于是
+`single-spa` 通过路由匹配对应的应用入口链接，当前基座下的子应用分别部署在各自仓库；按理说填写部署后的链接应该就可以了，但这会产生静态资源缓存的问题，于是做了以下优化：
+
+- 所有应用包括基座每次编译生产 8 位 `hash` 的入口文件
+- 编译基座时收集所有应用的入口文件生成 `import-map` 映射文件
+- 根据编译时的 `hash` 作为本次映射文件名的部分
 
 在 `github action` 上：
 
-- 基座下的子应用各自编译时候，根据输出带有哈希的入口，并生成 `import-map.json` 的映射文件
-- 映射文件包含了 `file` 和 `name`两个字段，作为应用名和路径
+- 基座下的子应用各自编译时候，根据输出带有 `hash` 的入口，并生成 `import-map.json` 的映射文件
+- 映射文件包含了 `file` 和 `name`两个字段，作为应用名和带有 `hash` 的路径
 - 编译基座前分别拉取：`monorepo` 主仓库、子应用仓库、当前仓库，按照开发环境路径一致放置
-- 分别编译子应用和基座，将子应用下的 `dist` 目录拷贝到基座目录 `/dist/micro/` 目录下
-- 扫描 `/dist/micro/` 下所有的隐射文件生成 `systemjs-importmap`
+- 设置环境变量 `DEPLOY_BASE` 作为应用域名根目录
+- 编译子应用后将子应用下的 `dist` 目录拷贝到基座 `/dist/micro/` 对应目录下
+- 编译主应用时，根据当前基座编译结果和 `dist` 下子应用的 `import-map` 映射文件生成 `imports` 资源表
+
+> 使用 `ci` 构建代替 `HTTP` 请求的原因是，`HTTP` 请求有着极其不稳定的可能性
 
 在 `webpack` 构建上：
 
-- 待补充
+- 编写插件 `GenerateImportMapPlugin` 导出子应用的 `import-map.json`
+- 编写插件 `defineEnvPlugin` 为应用提供环境变量 `DEPLOY_BASE`
+- 编写插件 `copyPlugin` 为应用提供 404 跳转服务
+- 设置 `HtmlWebpackPlugin` 将构建哈希 `buildHash` 和环境变量 `DEPLOY_BASE` 提供给模板对应 `hash` 映射表
+- 为子应用编写插件 `CustomStandaloneDisabledPlugin` 设置单独访问拦截模板
+
+> 以上插件均来自 `@event-chat/micro-dev-config`
 
 ---
 
